@@ -27,6 +27,7 @@ export function useBookmarks() {
             html = await res.text()
             break
           }
+          console.warn(`Bookmark source unavailable: ${url} (HTTP ${res.status})`)
         }
         if (!html) throw new Error('Could not load remote bookmarks source')
       } catch {
@@ -36,8 +37,16 @@ export function useBookmarks() {
             html = await localRes.text()
             break
           }
+          console.warn(`Local bookmark source unavailable: ${path} (HTTP ${localRes.status})`)
         }
-        if (!html) throw new Error('Could not load bookmarks HTML file')
+        if (!html) {
+          throw new Error(
+            `Could not load bookmarks from any source. Tried: ${[
+              ...REMOTE_BOOKMARKS_URLS,
+              ...LOCAL_BOOKMARKS_PATHS,
+            ].join(', ')}`,
+          )
+        }
       }
       const parsed = parseBookmarks(html)
       setBookmarks(parsed)

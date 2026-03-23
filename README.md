@@ -85,7 +85,7 @@ docker compose up -d
 3. You can still use `public/bookmarks.html` as a fallback source
 4. Commit and push — the app auto-fetches from `main` on load
 
-Or click **Edit on GitHub** in the app header to navigate to `public/bookmarks.html` for editing.
+Or click **Edit on GitHub** in the app header to update bookmark source files in the repo (`public/bravebookmarks.html` preferred, `public/bookmarks.html` fallback).
 
 ---
 

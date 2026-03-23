@@ -14,6 +14,9 @@ import { useState } from 'react'
 import { useTheme } from '../context/ThemeContext'
 import ExportMenu from './ExportMenu'
 
+const BRAVE_BOOKMARKS_SOURCE_URL =
+  'https://raw.githubusercontent.com/SomratChandraRoy/bookmarks/main/public/bravebookmarks.html'
+
 export default function Header({ bookmarks, onRefresh, loading }) {
   const { theme, toggleTheme } = useTheme()
   const [mobileOpen, setMobileOpen] = useState(false)
@@ -57,7 +60,7 @@ export default function Header({ bookmarks, onRefresh, loading }) {
             <motion.a
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              href="https://raw.githubusercontent.com/SomratChandraRoy/bookmarks/main/public/bravebookmarks.html"
+              href={BRAVE_BOOKMARKS_SOURCE_URL}
               target="_blank"
               rel="noopener noreferrer"
               title="Download original Brave bookmarks HTML"
@@ -121,7 +124,7 @@ export default function Header({ bookmarks, onRefresh, loading }) {
               Refresh
             </button>
             <a
-              href="https://raw.githubusercontent.com/SomratChandraRoy/bookmarks/main/public/bravebookmarks.html"
+              href={BRAVE_BOOKMARKS_SOURCE_URL}
               target="_blank"
               rel="noopener noreferrer"
               className="btn-secondary w-full justify-center"
