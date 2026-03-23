@@ -81,8 +81,9 @@ docker compose up -d
 ## 📝 Updating Your Bookmarks
 
 1. Export bookmarks from your browser (Brave, Chrome, Firefox, Edge) as HTML
-2. Replace `public/bookmarks.html` in this repo with your new export
-3. Commit and push — the app auto-fetches from `main` on load
+2. For Brave export, replace `public/bravebookmarks.html` (preferred source used by the app)
+3. You can still use `public/bookmarks.html` as a fallback source
+4. Commit and push — the app auto-fetches from `main` on load
 
 Or click **Edit on GitHub** in the app header to navigate to `public/bookmarks.html` for editing.
 
@@ -92,14 +93,20 @@ Or click **Edit on GitHub** in the app header to navigate to `public/bookmarks.h
 
 The app fetches bookmarks from:
 ```
-https://raw.githubusercontent.com/SomratChandraRoy/bookmarks/main/public/bookmarks.html
+https://raw.githubusercontent.com/SomratChandraRoy/bookmarks/main/public/bravebookmarks.html
 ```
 
-If the remote fetch fails (e.g., in development), it falls back to `/bookmarks.html` served locally.
+If that remote source is unavailable, the app automatically falls back to:
+- `public/bookmarks.html` on GitHub
+- `/bravebookmarks.html` served locally
+- `/bookmarks.html` served locally
 
 To change the source, edit `src/hooks/useBookmarks.js`:
 ```js
-const BOOKMARKS_URL = 'https://raw.githubusercontent.com/<owner>/<repo>/main/public/bookmarks.html'
+const REMOTE_BOOKMARKS_URLS = [
+  'https://raw.githubusercontent.com/<owner>/<repo>/main/public/bravebookmarks.html',
+  'https://raw.githubusercontent.com/<owner>/<repo>/main/public/bookmarks.html',
+]
 ```
 
 ---

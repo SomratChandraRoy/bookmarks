@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import {
   Bookmark,
+  Download,
   Moon,
   Sun,
   RefreshCw,
@@ -56,6 +57,19 @@ export default function Header({ bookmarks, onRefresh, loading }) {
             <motion.a
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
+              href="https://raw.githubusercontent.com/SomratChandraRoy/bookmarks/main/public/bravebookmarks.html"
+              target="_blank"
+              rel="noopener noreferrer"
+              title="Download original Brave bookmarks HTML"
+              className="btn-secondary"
+            >
+              <Download className="w-4 h-4" />
+              <span className="hidden md:inline">Download Source HTML</span>
+            </motion.a>
+
+            <motion.a
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
               href="https://github.com/SomratChandraRoy/bookmarks"
               target="_blank"
               rel="noopener noreferrer"
@@ -106,6 +120,15 @@ export default function Header({ bookmarks, onRefresh, loading }) {
               <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />
               Refresh
             </button>
+            <a
+              href="https://raw.githubusercontent.com/SomratChandraRoy/bookmarks/main/public/bravebookmarks.html"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn-secondary w-full justify-center"
+            >
+              <Download className="w-4 h-4" />
+              Download Source HTML
+            </a>
             <a
               href="https://github.com/SomratChandraRoy/bookmarks"
               target="_blank"
