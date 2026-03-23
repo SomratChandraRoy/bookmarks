@@ -1,0 +1,16 @@
+services:
+  bookmarks:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: production
+    image: bookmarks-viewer:latest
+    container_name: bookmarks-viewer
+    ports:
+      - "8080:80"
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "-q", "--spider", "http://localhost/"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
