@@ -1,8 +1,12 @@
 import { useState, useEffect, useCallback } from 'react'
 import { parseBookmarks } from '../utils/parseBookmarks'
 
-const BOOKMARKS_URL =
-  'https://raw.githubusercontent.com/SomratChandraRoy/bookmarks/main/public/bookmarks.html'
+const REMOTE_BOOKMARKS_URLS = [
+  'https://raw.githubusercontent.com/SomratChandraRoy/bookmarks/main/public/bravebookmarks.html',
+  'https://raw.githubusercontent.com/SomratChandraRoy/bookmarks/main/public/bookmarks.html',
+]
+
+const LOCAL_BOOKMARKS_PATHS = ['/bravebookmarks.html', '/bookmarks.html']
 
 export function useBookmarks() {
   const [bookmarks, setBookmarks] = useState([])
@@ -14,16 +18,35 @@ export function useBookmarks() {
     setLoading(true)
     setError(null)
     try {
-      // Try remote first; fall back to local /bookmarks.html for development
+      // Try remote first, preferring Brave export; fall back to local files in development
       let html
       try {
-        const res = await fetch(`${BOOKMARKS_URL}?t=${Date.now()}`)
-        if (!res.ok) throw new Error(`HTTP ${res.status}`)
-        html = await res.text()
+        for (const url of REMOTE_BOOKMARKS_URLS) {
+          const res = await fetch(`${url}?t=${Date.now()}`)
+          if (res.ok) {
+            html = await res.text()
+            break
+          }
+          console.warn(`Bookmark source unavailable: ${url} (HTTP ${res.status})`)
+        }
+        if (!html) throw new Error('Could not load remote bookmarks source')
       } catch {
-        const localRes = await fetch('/bookmarks.html')
-        if (!localRes.ok) throw new Error('Could not load bookmarks.html')
-        html = await localRes.text()
+        for (const path of LOCAL_BOOKMARKS_PATHS) {
+          const localRes = await fetch(path)
+          if (localRes.ok) {
+            html = await localRes.text()
+            break
+          }
+          console.warn(`Local bookmark source unavailable: ${path} (HTTP ${localRes.status})`)
+        }
+        if (!html) {
+          throw new Error(
+            `Could not load bookmarks from any source. Tried: ${[
+              ...REMOTE_BOOKMARKS_URLS,
+              ...LOCAL_BOOKMARKS_PATHS,
+            ].join(', ')}`,
+          )
+        }
       }
       const parsed = parseBookmarks(html)
       setBookmarks(parsed)

@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import {
   Bookmark,
+  Download,
   Moon,
   Sun,
   RefreshCw,
@@ -12,6 +13,9 @@ import {
 import { useState } from 'react'
 import { useTheme } from '../context/ThemeContext'
 import ExportMenu from './ExportMenu'
+
+const BRAVE_BOOKMARKS_SOURCE_URL =
+  'https://raw.githubusercontent.com/SomratChandraRoy/bookmarks/main/public/bravebookmarks.html'
 
 export default function Header({ bookmarks, onRefresh, loading }) {
   const { theme, toggleTheme } = useTheme()
@@ -52,6 +56,19 @@ export default function Header({ bookmarks, onRefresh, loading }) {
               />
               <span className="hidden md:inline">Refresh</span>
             </motion.button>
+
+            <motion.a
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              href={BRAVE_BOOKMARKS_SOURCE_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              title="Download original Brave bookmarks HTML"
+              className="btn-secondary"
+            >
+              <Download className="w-4 h-4" />
+              <span className="hidden md:inline">Download Source HTML</span>
+            </motion.a>
 
             <motion.a
               whileHover={{ scale: 1.05 }}
@@ -106,6 +123,15 @@ export default function Header({ bookmarks, onRefresh, loading }) {
               <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />
               Refresh
             </button>
+            <a
+              href={BRAVE_BOOKMARKS_SOURCE_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn-secondary w-full justify-center"
+            >
+              <Download className="w-4 h-4" />
+              Download Source HTML
+            </a>
             <a
               href="https://github.com/SomratChandraRoy/bookmarks"
               target="_blank"
